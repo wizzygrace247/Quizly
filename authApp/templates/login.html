@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}QuizMaster - Login {% endblock %}
+{% block content %}
+
+<form method="post" class="form">
+    <h2 class="title"> Login Form</h2>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+{% endblock %}

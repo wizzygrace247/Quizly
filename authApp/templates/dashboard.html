@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - QuizMaster{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-100 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Welcome Header -->
+    <div class="mb-8">
+      <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-white/20 p-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-4 md:mb-0">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">
+              Welcome back, <span class="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">{{ user.username }}</span>!
+            </h1>
+            <p class="text-gray-600 text-lg">Ready to challenge your mind today?</p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div class="text-center">
+              <div class="text-3xl font-bold text-purple-600">{% if user.score %}{{ user.score }}{% else %}0{% endif %}</div>
+              <div class="text-sm text-gray-500">Total Score</div>
+            </div>
+            <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg transform hover:scale-105 transition-all duration-300">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Quizzes Completed -->
+      <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Quizzes Completed</p>
+            <p class="text-3xl font-bold text-green-600">{% if quizzes_completed %}{{ quizzes_completed }}{% else %}0{% endif %}</p>
+          </div>
+          <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Average Score -->
+      <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Average Score</p>
+            <p class="text-3xl font-bold text-blue-600">{% if average_score %}{{ average_score|floatformat:1 }}{% else %}0{% endif %}%</p>
+          </div>
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Streak -->
+      <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Current Streak</p>
+            <p class="text-3xl font-bold text-orange-600">{% if current_streak %}{{ current_streak }}{% else %}0{% endif %}</p>
+          </div>
+          <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rank -->
+      <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 transform hover:scale-105 transition-all duration-300 hover:shadow-xl">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Your Rank</p>
+            <p class="text-3xl font-bold text-purple-600">#{% if user_rank %}{{ user_rank }}{% else %}-{% endif %}</p>
+          </div>
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Available Quizzes -->
+      <div class="lg:col-span-2">
+        <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-white/20 p-6">
+          <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Available Quizzes</h2>
+            <a href="#" class="text-purple-600 hover:text-purple-700 text-sm font-medium hover:underline">View All</a>
+          </div>
+          
+          <div class="space-y-4">
+            {% for quiz in available_quizzes|slice:":5" %}
+            <div class="group bg-gradient-to-r from-white to-gray-50 rounded-2xl p-4 border border-gray-100 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+              <div class="flex items-center justify-between">
+                <div class="flex-1">
+                  <h3 class="font-semibold text-gray-800 group-hover:text-purple-600 transition-colors duration-300">{{ quiz.title }}</h3>
+                  <p class="text-sm text-gray-600 mt-1">{{ quiz.description|truncatechars:80 }}</p>
+                  <div class="flex items-center mt-2 space-x-4 text-xs text-gray-500">
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      {% if quiz.question_count %}{{ quiz.question_count }}{% else %}0{% endif %} questions
+                    </span>
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      {% if quiz.duration %}{{ quiz.duration }}{% else %}10{% endif %} min
+                    </span>
+                    <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-medium">{% if quiz.difficulty %}{{ quiz.difficulty }}{% else %}Medium{% endif %}</span>
+                  </div>
+                </div>
+                <a href="#" class="ml-4 bg-gradient-to-r from-purple-500 to-blue-600 text-white px-6 py-2 rounded-xl hover:from-purple-600 hover:to-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl text-sm font-medium">
+                  Start Quiz
+                </a>
+              </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-8">
+              <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">No quizzes available</h3>
+              <p class="text-gray-500">Check back later for new challenges!</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="space-y-6">
+        
+        <!-- Recent Activity -->
+        <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-white/20 p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h3>
+          <div class="space-y-4">
+            {% for activity in recent_activities|slice:":4" %}
+            <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-300">
+              <div class="w-10 h-10 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">{{ activity.quiz_title }}</p>
+                <p class="text-xs text-gray-500">Score: {{ activity.score }}% • {{ activity.date|timesince }} ago</p>
+              </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-6">
+              <svg class="w-12 h-12 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p class="text-sm text-gray-500">No recent activity</p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl border border-white/20 p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">Quick Actions</h3>
+          <div class="space-y-3">
+            <a href="#" class="flex items-center p-3 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl hover:from-purple-100 hover:to-blue-100 transition-all duration-300 group">
+              <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                </svg>
+              </div>
+              <span class="font-medium text-gray-700 group-hover:text-purple-600 transition-colors duration-300">Create Quiz</span>
+            </a>
+            
+            <a href="#" class="flex items-center p-3 bg-gradient-to-r from-green-50 to-teal-50 rounded-xl hover:from-green-100 hover:to-teal-100 transition-all duration-300 group">
+              <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+              <span class="font-medium text-gray-700 group-hover:text-green-600 transition-colors duration-300">Random Quiz</span>
+            </a>
+            
+            <a href="#" class="flex items-center p-3 bg-gradient-to-r from-orange-50 to-red-50 rounded-xl hover:from-orange-100 hover:to-red-100 transition-all duration-300 group">
+              <div class="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center mr-3 group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+              <span class="font-medium text-gray-700 group-hover:text-orange-600 transition-colors duration-300">View Stats</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Achievement Badge -->
+        <div class="bg-gradient-to-r from-purple-500 to-blue-600 rounded-3xl shadow-xl p-6 text-white">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+              </svg>
+            </div>
+            <h4 class="font-bold text-lg mb-2">Quiz Explorer</h4>
+            <p class="text-white/80 text-sm">Complete 5 more quizzes to unlock the "Knowledge Seeker" badge!</p>
+            <div class="w-full bg-white/20 rounded-full h-2 mt-4">
+              
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

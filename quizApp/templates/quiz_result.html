@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz Result{% endblock %}
+
+{% block content %}
+<style>
+.result-box {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.result-box h2 {
+    color: #1e40af;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+.result-box p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+.result-box a {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+}
+.result-box a:hover {
+    background: #1d4ed8;
+}
+</style>
+
+<div class="result-box">
+    <h2>{{ quiz.title }} - Result</h2>
+    <p>Your score: <strong>{{ score }}</strong> points</p>
+    <a href="{% url 'quizApp:quiz_list' %}"> Back to Quiz List</a>
+</div>
+{% endblock %}
