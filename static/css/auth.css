@@ -1,6 +1,7 @@
 .main_container {
     margin: 20px auto;
     height: 100vh;
+    display: flex;
 }
 
 .title {
