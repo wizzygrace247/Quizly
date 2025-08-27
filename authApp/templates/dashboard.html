@@ -149,8 +149,11 @@
                       </svg>
                       {% if quiz.duration %}{{ quiz.duration }}{% else %}10{% endif %} min
                     </span>
-                    <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-medium">{% if
-                      quiz.difficulty %}{{ quiz.difficulty }}{% empty %}Medium{% endif %}</span>
+                    <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-medium">
+                      <span class="px-2 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-medium">
+                        {{ quiz.difficulty|default:"Medium" }}
+                      </span>
+
                   </div>
                 </div>
                 <a href="#"
